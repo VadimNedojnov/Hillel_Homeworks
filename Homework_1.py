@@ -1,5 +1,6 @@
 from flask import Flask
 from faker import Faker
+import requests
 
 app = Flask('app')
 
@@ -22,6 +23,13 @@ def height_weight():
                 weight += float(modern_line[2])
                 count += 1
     return f'Average height: {height / count}; Average weight: {weight / count}'
+
+
+@app.route('/space')
+def space():
+    api_request = requests.get('http://api.open-notify.org/astros.json')
+    names = '<br />'.join(f'Astronaut {i + 1}: {api_request.json()["people"][i]["name"]}' for i in range(api_request.json()['number']))
+    return f'Humans amount in space: {api_request.json()["number"]} <br />{names}'
 
 
 if __name__ == '__main__':
