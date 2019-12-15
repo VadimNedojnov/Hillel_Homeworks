@@ -1,6 +1,8 @@
 from flask import Flask
 from faker import Faker
 import requests
+import os
+
 
 app = Flask('app')
 
@@ -12,7 +14,8 @@ def generator():
 
 @app.route('/height_weight')
 def height_weight():
-    with open('hw.csv') as file:
+    req_path = os.path.join(os.getcwd(), 'hw.csv')
+    with open(req_path) as file:
         height = 0
         weight = 0
         count = 0
