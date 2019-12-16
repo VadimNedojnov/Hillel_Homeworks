@@ -1,8 +1,13 @@
 import string
 import random
+import sqlite3
+import os
 from validation import empty_parameter_validation
 from validation import parameter_isdigit_validation
 from validation import max_symbols_amount_validation
+
+
+# ----------------------------------------------------------------- For first homework, start
 
 
 def amount_letters_query():
@@ -24,3 +29,43 @@ def string_generator(amount):
         return ready_string
     else:
         return amount
+
+# ----------------------------------------------------------------- For first homework, end
+
+
+# ----------------------------------------------------------------- For second homework, start
+
+
+def exec_query(query):
+    database_path = os.path.join(os.getcwd(), 'chinook.db')
+    conn = sqlite3.connect(database_path)
+    cur = conn.cursor()
+    cur.execute(query)
+    record = cur.fetchall()
+    return str(record)
+
+
+def all_customers():
+    query = f'SELECT * FROM customers ORDER BY State, City;'
+    first_result = exec_query(query)
+    final_result = '<br />'.join(first_result.split('), ('))
+    return final_result[2:len(final_result) - 2]
+
+
+def unique_names_count():
+    query = f'SELECT COUNT(DISTINCT FirstName) FROM customers;'
+    result = exec_query(query)
+    return f'Amount of unique names in DB: {result[2:len(result) - 3]}'
+
+
+def all_unique_names():
+    query = f'SELECT DISTINCT FirstName FROM customers;'
+    first_result = exec_query(query)
+    result = '<br />'.join(first_result.split('), ('))
+    return result[2:len(result) - 3]
+
+# ----------------------------------------------------------------- For second homework, end
+
+
+
+
