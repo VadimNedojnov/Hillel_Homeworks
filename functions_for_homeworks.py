@@ -7,7 +7,20 @@ from validation import parameter_isdigit_validation
 from validation import max_symbols_amount_validation
 
 
-# ----------------------------------------------------------------- For first homework, start
+# ----------------------------------------------------------------- For second homework, start
+
+def navigation_panel_link(key):
+    return f'<a href="http://127.0.0.1:5000/{key}">{key}</a>'
+
+
+def navigation_panel_link_2(key):
+    return f'<a href="http://127.0.0.1:5000/{key}?amount=50">{key}</a>'
+
+
+def navigation_panel():
+    panel = f'{navigation_panel_link("")} {navigation_panel_link_2("gen")} {navigation_panel_link("sorting")} ' \
+            f'{navigation_panel_link("names")} {navigation_panel_link("profit")}'
+    return panel
 
 
 def amount_letters_query():
@@ -30,11 +43,6 @@ def string_generator(amount):
     else:
         return amount
 
-# ----------------------------------------------------------------- For first homework, end
-
-
-# ----------------------------------------------------------------- For second homework, start
-
 
 def exec_query(query):
     database_path = os.path.join(os.getcwd(), 'chinook.db')
@@ -49,20 +57,26 @@ def all_customers():
     query = f'SELECT * FROM customers ORDER BY State, City;'
     first_result = exec_query(query)
     final_result = '<br />'.join(first_result.split('), ('))
-    return final_result[2:len(final_result) - 2]
+    return final_result[2:-2]
 
 
 def unique_names_count():
     query = f'SELECT COUNT(DISTINCT FirstName) FROM customers;'
     result = exec_query(query)
-    return f'Amount of unique names in DB: {result[2:len(result) - 3]}'
+    return f'Amount of unique names in DB: {result[2:-3]}'
 
 
 def all_unique_names():
     query = f'SELECT DISTINCT FirstName FROM customers;'
     first_result = exec_query(query)
     result = '<br />'.join(first_result.split('), ('))
-    return result[2:len(result) - 3]
+    return result[2:-3]
+
+
+def total_profit_query():
+    query = f'SELECT SUM(UnitPrice * Quantity) FROM invoice_items;'
+    result = exec_query(query)
+    return f'Total profit: {result[2:-3]}'
 
 # ----------------------------------------------------------------- For second homework, end
 
